@@ -1,6 +1,6 @@
 package me.wawwior.utils.event;
 
-public abstract class Event {
+public class Event {
 
     protected boolean canceled = false;
 

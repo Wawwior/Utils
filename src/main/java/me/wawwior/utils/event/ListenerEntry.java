@@ -7,7 +7,9 @@ public record ListenerEntry(IEventListener listener, Method method, int priority
 
     public void post(Event event) {
         try {
-            method.invoke(listener, event);
+            if (method.getParameterTypes()[0].equals(event.getClass())) {
+                method.invoke(listener, event);
+            }
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }

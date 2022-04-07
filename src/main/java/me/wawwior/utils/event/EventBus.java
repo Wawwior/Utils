@@ -1,5 +1,7 @@
 package me.wawwior.utils.event;
 
+import me.wawwior.utils.common.CloneFactory;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -46,7 +48,13 @@ public class EventBus {
     public void post(ParallelEvent event) {
         ThreadPoolExecutor pool = new ThreadPoolExecutor(maxParallelThreads, maxParallelThreads, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<>(maxParallelThreads * 10));
         listenerEntries.forEach(l -> {
-            pool.execute(() -> l.post(event.clone()));
+            pool.execute(() -> {
+                try {
+                    l.post(CloneFactory.clone(event));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            });
         });
     }
 

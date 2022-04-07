@@ -20,6 +20,7 @@ public class EventExample implements IEventListener {
         EventBus bus = new EventBus();
         bus.register(new EventExample());
         bus.post(new IntegerEvent(10));
+        bus.post(new Event());
     }
 
 }
