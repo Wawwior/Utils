@@ -11,6 +11,10 @@ public class Timer {
         start = System.currentTimeMillis();
     }
 
+    public long get() {
+        return System.currentTimeMillis() - start;
+    }
+
     public Timer log(OutputStream stream) {
         try {
             stream.write(("Logged after: " + (System.currentTimeMillis() - start) + "ms\n").getBytes());

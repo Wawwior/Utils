@@ -4,6 +4,7 @@ import sun.reflect.ReflectionFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 public class CloneFactory {
 
@@ -15,14 +16,19 @@ public class CloneFactory {
 
         T clone = create(clazz);
 
+        //TODO: Limit deep copy of fields by modifiers.
         for (Field f : fields) {
+            int mod = f.getModifiers();
+            if (Modifier.isStatic(mod)) {
+                continue;
+            }
             boolean accessible = f.canAccess(t);
             f.setAccessible(true);
             f.set(clone, f.get(t));
             f.setAccessible(accessible);
         }
 
-        return t;
+        return clone;
     }
 
     public static <T> T create(Class<T> clazz) {

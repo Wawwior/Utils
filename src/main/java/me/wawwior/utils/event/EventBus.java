@@ -37,6 +37,8 @@ public class EventBus {
 
         if (!sorted) listenerEntries.sort(Comparator.comparingInt(ListenerEntry::priority));
 
+        sorted = true;
+
         listenerEntries.forEach(l -> {
             if (!event.isCanceled()) {
                 l.post(event);
@@ -45,7 +47,7 @@ public class EventBus {
         return event.isCanceled();
     }
 
-    public void post(ParallelEvent event) {
+    public void postParallel(Event event) {
         ThreadPoolExecutor pool = new ThreadPoolExecutor(maxParallelThreads, maxParallelThreads, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<>(maxParallelThreads * 10));
         listenerEntries.forEach(l -> {
             pool.execute(() -> {
