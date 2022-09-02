@@ -1,6 +1,6 @@
 package me.wawwior.utils.event;
 
-import me.wawwior.utils.common.CloneFactory;
+import me.wawwior.utils.reflection.CloneFactory;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

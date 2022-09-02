@@ -1,4 +1,4 @@
-package me.wawwior.utils.common;
+package me.wawwior.utils.reflection;
 
 import sun.reflect.ReflectionFactory;
 
@@ -10,6 +10,7 @@ public class CloneFactory {
 
     public static <T> T clone(T t) throws IllegalAccessException {
 
+        @SuppressWarnings("unchecked")
         Class<T> clazz = (Class<T>) t.getClass();
 
         Field[] fields = clazz.getFields();
