@@ -27,7 +27,7 @@ public class AdvancedMatcher {
 		return new AdvancedMatcher(regex);
 	}
 	
-	public OptionalMapWrapper<String, String> matches(String message) {
+	public Optional<OptionalMapWrapper<String, String>> matches(String message) {
 		
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(message);
@@ -38,10 +38,10 @@ public class AdvancedMatcher {
 			for (String arg : args) {
 				builder.put(arg, matcher.group(arg));
 			}
-			return OptionalMapWrapper.of(builder);
+			return Optional.of(OptionalMapWrapper.of(builder));
 		}
 		
-		return OptionalMapWrapper.of(Collections.emptyMap());
+		return Optional.empty();
 		
 	}
 	
