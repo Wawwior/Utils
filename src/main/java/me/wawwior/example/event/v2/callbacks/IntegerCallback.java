@@ -6,7 +6,7 @@ import me.wawwior.utils.event.v2.CallbackProvider;
 
 public class IntegerCallback extends CallbackProvider<IntegerCallback.IntegerCallbackInfo> {
 	
-	public static IntegerCallback INSTANCE = new IntegerCallback();
+	public static final IntegerCallback INSTANCE = new IntegerCallback();
 	
 	public static class IntegerCallbackInfo extends CallbackInfo {
 		

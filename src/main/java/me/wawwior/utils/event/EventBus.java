@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class EventBus {
 
@@ -49,15 +50,13 @@ public class EventBus {
 
     public void postParallel(Event event) {
         ThreadPoolExecutor pool = new ThreadPoolExecutor(maxParallelThreads, maxParallelThreads, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<>(maxParallelThreads * 10));
-        listenerEntries.forEach(l -> {
-            pool.execute(() -> {
-                try {
-                    l.post(CloneFactory.clone(event));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
+        listenerEntries.forEach(l -> pool.execute(() -> {
+            try {
+                l.post(CloneFactory.clone(event));
+            } catch (IllegalAccessException e) {
+                Logger.getAnonymousLogger().info("Failed to clone event: " + event.getClass().getName());
+            }
+        }));
     }
 
     private static List<ListenerEntry> entries(IEventListener listener) {

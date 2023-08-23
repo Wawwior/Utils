@@ -6,12 +6,6 @@ import me.wawwior.utils.event.*;
 
 public class EventExample implements IEventListener {
 
-    @Subscribe(Priority.HIGH)
-    public void changeIntEvent(IntegerEvent event) {
-        System.out.println(event.getValue());
-        event.modifyValue(i -> i * 2);
-    }
-
     @Subscribe
     public void onIntEvent(IntegerEvent event) {
         System.out.println(event.getValue());
@@ -26,7 +20,6 @@ public class EventExample implements IEventListener {
         timer.log(System.out, s -> "Listener registration: " + s + "\n").reset();
         bus.post(new IntegerEvent(10));
         timer.log(System.out, s -> "Event posting: " + s + "\n");
-        //bus.post(new Event());
         timeAll.log(System.out, s -> "Total time: " + s + "\n");
     }
 
