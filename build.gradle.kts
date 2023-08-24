@@ -22,9 +22,9 @@ repositories {
 
 dependencies {
 
+    api("com.google.guava:guava:32.1.2-jre")
     api("org.python:jython-slim:2.7.3b1")
     api("mx.kenzie:mimic:1.1.0")
-    //api("com.google.guava:guava:31.1-jre")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")

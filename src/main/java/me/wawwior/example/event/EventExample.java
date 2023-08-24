@@ -2,25 +2,25 @@ package me.wawwior.example.event;
 
 import me.wawwior.example.event.events.IntegerEvent;
 import me.wawwior.utils.common.Timer;
-import me.wawwior.utils.event.*;
+import me.wawwior.utils.event.ActionResult;
 
-public class EventExample implements IEventListener {
+import java.util.concurrent.TimeUnit;
 
-    @Subscribe
-    public void onIntEvent(IntegerEvent event) {
-        System.out.println(event.getValue());
+public class EventExample {
+
+    public static ActionResult onIntEvent(int i) {
+        System.out.println(i);
+        return ActionResult.PASS;
     }
 
     public static void main(String[] args) {
-        Timer timer = new Timer();
-        Timer timeAll = new Timer();
-        EventBus bus = new EventBus();
-        timer.log(System.out, s -> "EventBus init: " + s + "\n").reset();
-        bus.register(new EventExample());
-        timer.log(System.out, s -> "Listener registration: " + s + "\n").reset();
-        bus.post(new IntegerEvent(10));
-        timer.log(System.out, s -> "Event posting: " + s + "\n");
-        timeAll.log(System.out, s -> "Total time: " + s + "\n");
+        Timer timer = new Timer().start();
+        Timer timeAll = new Timer().start();
+        IntegerEvent.EVENT.register(EventExample::onIntEvent);
+        timer.log(System.out, n -> "Listener registration: " + TimeUnit.NANOSECONDS.toMillis(n) + "ms\n").reset();
+        IntegerEvent.EVENT.invoker().post(0);
+        timer.log(System.out, n -> "Event posting: " + TimeUnit.NANOSECONDS.toMillis(n) + "ms\n");
+        timeAll.log(System.out, n -> "Total time: " + TimeUnit.NANOSECONDS.toMillis(n) + "ms\n");
     }
 
 }

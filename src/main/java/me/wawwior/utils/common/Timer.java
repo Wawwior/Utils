@@ -2,38 +2,56 @@ package me.wawwior.utils.common;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.function.Function;
 
 public class Timer {
 
     private long start;
+    private long accumulated = 0;
+
+    private boolean running = false;
 
     public Timer() {
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
     }
 
     public long get() {
-        return System.currentTimeMillis() - start;
+        return accumulated + (running ? System.nanoTime() - start : 0);
     }
 
-    public Timer log(OutputStream stream) {
-        try {
-            stream.write(("Logged after: " + (System.currentTimeMillis() - start) + "ms\n").getBytes());
-        } catch (IOException e) {
-            System.out.println("OutputStream \"" + stream + "\" refused writing.");
+    public Timer start() {
+        if (!running) {
+            start = System.nanoTime();
+            running = true;
         }
         return this;
     }
 
-    public Timer log(OutputStream stream, Modifier<String> modifier) {
-        try {
-            stream.write(modifier.modify(System.currentTimeMillis() - start + "ms").getBytes());
-        } catch (IOException e) {
-            System.out.println("OutputStream \"" + stream + "\" refused writing.");
+    public Timer stop() {
+        if (running) {
+            accumulated += System.nanoTime() - start;
+            running = false;
         }
         return this;
     }
 
     public void reset() {
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
     }
+
+
+    public Timer log(OutputStream stream) {
+        return log(stream, s -> "Logged after: " + s + "\n");
+    }
+
+    public Timer log(OutputStream stream, Function<Long, String> modifier) {
+        try {
+            stream.write(modifier.apply(get()).getBytes());
+        } catch (IOException e) {
+            System.out.println("OutputStream \"" + stream + "\" refused writing.");
+        }
+        return this;
+    }
+
+
 }

@@ -6,9 +6,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public class CloneFactory {
+interface CloneFactory {
 
-    public static <T> T clone(T t) throws IllegalAccessException {
+    static <T> T clone(T t) throws IllegalAccessException {
 
         @SuppressWarnings("unchecked")
         Class<T> clazz = (Class<T>) t.getClass();
@@ -32,7 +32,7 @@ public class CloneFactory {
         return clone;
     }
 
-    public static <T> T create(Class<T> clazz) {
+    static <T> T create(Class<T> clazz) {
         try {
             ReflectionFactory rf = ReflectionFactory.getReflectionFactory();
 

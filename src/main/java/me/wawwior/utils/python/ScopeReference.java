@@ -4,6 +4,7 @@ import org.python.util.PythonInterpreter;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class ScopeReference {
 
@@ -26,7 +27,7 @@ public class ScopeReference {
             try {
                 interpreter.set(s, f.get(scope));
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                Logger.getAnonymousLogger().warning("Failed to point " + f.getName() + " to " + s);
             }
         });
     }
@@ -36,7 +37,7 @@ public class ScopeReference {
             try {
                 f.set(scope, interpreter.get(s).__tojava__(f.getType()));
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                Logger.getAnonymousLogger().warning("Failed to resolve " + f.getName() + " from " + s);
             }
         });
     }

@@ -6,12 +6,10 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
-public class ConditionalProxyWrapper {
-	
-	private ConditionalProxyWrapper() {}
-	
+public interface ConditionalProxyWrapper {
+
 	@SuppressWarnings("unchecked")
-	public static <T> T wrap(T t, Supplier<Boolean> condition) {
+    static <T> T wrap(T t, Supplier<Boolean> condition) {
 		return (T) Mimic.create(t.getClass())
 				.forward(t)
 				.override(
