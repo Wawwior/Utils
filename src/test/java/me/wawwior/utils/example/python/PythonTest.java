@@ -1,14 +1,13 @@
 package me.wawwior.utils.example.python;
 
 import me.wawwior.utils.common.Timer;
+import me.wawwior.utils.python.IScope;
 import me.wawwior.utils.python.Interpreter;
 import me.wawwior.utils.python.PyVar;
-import me.wawwior.utils.python.IScope;
 import me.wawwior.utils.python.ScopeReference;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
