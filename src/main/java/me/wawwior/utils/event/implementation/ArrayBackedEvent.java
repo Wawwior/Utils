@@ -19,7 +19,7 @@ public class ArrayBackedEvent<T> implements Event<T> {
         buildInvoker();
     }
 
-    private void buildInvoker() {
+    public void buildInvoker() {
         invoker = invokerFactory.apply(listeners);
     }
 

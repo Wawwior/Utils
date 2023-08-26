@@ -4,7 +4,6 @@ import org.python.util.PythonInterpreter;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 public class ScopeReference {
 
@@ -25,9 +24,10 @@ public class ScopeReference {
     public void point(PythonInterpreter interpreter) {
         fields.forEach((f, s) -> {
             try {
+                f.trySetAccessible();
                 interpreter.set(s, f.get(scope));
             } catch (IllegalAccessException e) {
-                Logger.getAnonymousLogger().warning("Failed to point " + f.getName() + " to " + s);
+                throw new RuntimeException("Failed to point " + f.getName() + " to " + s);
             }
         });
     }
@@ -35,9 +35,10 @@ public class ScopeReference {
     public void resolve(PythonInterpreter interpreter) {
         fields.forEach((f, s) -> {
             try {
+                f.trySetAccessible();
                 f.set(scope, interpreter.get(s).__tojava__(f.getType()));
             } catch (IllegalAccessException e) {
-                Logger.getAnonymousLogger().warning("Failed to resolve " + f.getName() + " from " + s);
+                throw new RuntimeException("Failed to resolve " + f.getName() + " from " + s);
             }
         });
     }
