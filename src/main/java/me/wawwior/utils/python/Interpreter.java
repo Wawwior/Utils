@@ -12,7 +12,6 @@ public class Interpreter {
 
     /**
      * Directly execute compiled python code in the interpreter.
-     *
      * Imports have to be included in the code!
      *
      * @param code {@link PyCode} to execute
@@ -25,7 +24,6 @@ public class Interpreter {
     /**
      * Directly execute compiled python code in the interpreter,
      * with reference to an {@link IScope} for variables.
-     *
      * Imports have to be included in the code!
      *
      * @param code {@link PyCode} to execute

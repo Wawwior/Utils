@@ -1,8 +1,8 @@
 package me.wawwior.utils.example.event;
 
+import me.wawwior.utils.event.ActionResult;
 import me.wawwior.utils.example.event.events.IntegerEvent;
 import me.wawwior.utils.common.Timer;
-import me.wawwior.utils.event.ActionResult;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;

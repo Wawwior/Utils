@@ -7,7 +7,7 @@ import me.wawwior.utils.event.EventFactory;
 
 public interface IntegerEvent {
 
-    Event<IntegerCallback> EVENT = EventFactory.createArrayBackedEvent(IntegerCallback.class, i -> ActionResult.PASS, listeners -> i -> {
+    Event<IntegerCallback> EVENT = EventFactory.createArrayBackedEvent(IntegerCallback[]::new, i -> ActionResult.PASS, listeners -> i -> {
         for (IntegerCallback listener : listeners) {
             ActionResult result = listener.post(i);
             if (!result.shouldContinue()) {

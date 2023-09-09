@@ -1,12 +1,12 @@
 plugins {
     `java-library`
     `maven-publish`
+    kotlin("jvm") version "1.9.20-Beta"
 }
 
 group = "me.wawwior"
 version = "1.3.1"
 description = "utils"
-java.sourceCompatibility = JavaVersion.VERSION_17
 
 
 repositories {
@@ -18,6 +18,7 @@ repositories {
     maven {
         url = uri("https://repo.maven.apache.org/maven2/")
     }
+    mavenCentral()
 }
 
 dependencies {
@@ -28,6 +29,7 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation(kotlin("stdlib-jdk8"))
 
 }
 
@@ -44,3 +46,6 @@ publishing {
     }
 }
 
+kotlin {
+    jvmToolchain(17)
+}
