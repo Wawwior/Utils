@@ -24,6 +24,7 @@ repositories {
 dependencies {
 
     api("com.google.guava:guava:32.1.2-jre")
+    api("com.google.code.gson:gson:2.10.1")
     api("org.python:jython-slim:2.7.3b1")
     api("mx.kenzie:mimic:1.1.0")
 
