@@ -1,22 +1,22 @@
 package me.wawwior.utils.event;
 
-import com.google.common.collect.MapMaker;
-import me.wawwior.utils.event.implementation.ArrayBackedEvent;
-
 import java.util.Collections;
 import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.function.Function;
 
-public final class EventFactory {
+public interface EventFactory {
 
-    private static final Set<ArrayBackedEvent<?>> ARRAY_BACKED_EVENTS = Collections.newSetFromMap(new MapMaker().weakKeys().makeMap());
+    Set<ArrayBackedEvent<?>> ARRAY_BACKED_EVENTS = Collections.newSetFromMap(new WeakHashMap<>());
 
-    public static <T> Event<T> createArrayBackedEvent(Class<T> type, Function<T[], T> invokerFactory) {
-        return new ArrayBackedEvent<>(type, invokerFactory);
+    static <T> Event<T> createArrayBackedEvent(Function<Integer, T[]> arrayFactory, Function<T[], T> invokerFactory) {
+        ArrayBackedEvent<T> event = new ArrayBackedEvent<>(arrayFactory, invokerFactory);
+        ARRAY_BACKED_EVENTS.add(event);
+        return event;
     }
 
-    public static <T> Event<T> createArrayBackedEvent(Class<T> type, T emptyInvoker, Function<T[], T> invokerFactory) {
-        return createArrayBackedEvent(type, listeners -> {
+    static <T> Event<T> createArrayBackedEvent(Function<Integer, T[]> arrayFactory, T emptyInvoker, Function<T[], T> invokerFactory) {
+        return createArrayBackedEvent(arrayFactory, listeners -> {
             if (listeners.length == 0) {
                 return emptyInvoker;
             }
@@ -27,7 +27,7 @@ public final class EventFactory {
         });
     }
 
-    public static void rebuildInvokers() {
+    static void rebuildAllInvokers() {
         ARRAY_BACKED_EVENTS.forEach(ArrayBackedEvent::buildInvoker);
     }
 

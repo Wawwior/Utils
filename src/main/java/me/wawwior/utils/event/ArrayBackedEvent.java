@@ -1,40 +1,40 @@
-package me.wawwior.utils.event.implementation;
+package me.wawwior.utils.event;
 
-import me.wawwior.utils.event.Event;
-
-import java.lang.reflect.Array;
 import java.util.function.Function;
 
 public class ArrayBackedEvent<T> implements Event<T> {
 
-    private T[] listeners;
+    private final Function<Integer, T[]> arrayFactory;
     private final Function<T[], T> invokerFactory;
+
+    private T[] listeners;
 
     private T invoker;
 
-    @SuppressWarnings("unchecked")
-    public ArrayBackedEvent(Class<T> type, Function<T[], T> invokerFactory) {
-        listeners = (T[]) Array.newInstance(type, 0);
+    ArrayBackedEvent(Function<Integer, T[]> arrayFactory, Function<T[], T> invokerFactory) {
+        this.arrayFactory = arrayFactory;
         this.invokerFactory = invokerFactory;
-        buildInvoker();
+
+        this.listeners = arrayFactory.apply(0);
+        this.invoker = invokerFactory.apply(this.listeners);
+
     }
 
     public void buildInvoker() {
         invoker = invokerFactory.apply(listeners);
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
     public void register(T listener) {
-        T[] newListeners = (T[]) Array.newInstance(listeners.getClass().getComponentType(), listeners.length + 1);
+        T[] newListeners = arrayFactory.apply(listeners.length + 1);
         System.arraycopy(listeners, 0, newListeners, 0, listeners.length);
         newListeners[listeners.length] = listener;
         listeners = newListeners;
         buildInvoker();
     }
 
-
+    @Override
     public T invoker() {
         return invoker;
     }
-
 }
