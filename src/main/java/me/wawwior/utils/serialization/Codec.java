@@ -64,8 +64,10 @@ public interface Codec<T> extends Encoder<T>, Decoder<T> {
         };
     }
 
+    /*
     static <T> Codec<T> mapped(Function<CodecMapper<T>, Codec<T>> mapper) {
         return mapper.apply(new CodecMapper<>());
     }
+    */
 
 }

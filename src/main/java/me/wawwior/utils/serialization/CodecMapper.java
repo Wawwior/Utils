@@ -90,7 +90,7 @@ public class CodecMapper<R> {
 
         @Override
         public DataResult<R> apply(Function2<P1, P2, R> p1P2RFunction2) {
-            return this.child.apply(p1P2RFunction2.apply(this.result.result(System.out::println)));
+            return this.child.apply(p1P2RFunction2.bind(this.result.result(System.out::println)));
         }
 
         public <P3> Group3<P1, P2, P3, R> bind(String name, Function<R, P3> getter, Codec<P3> codec) {
@@ -106,7 +106,7 @@ public class CodecMapper<R> {
 
         @Override
         public DataResult<R> apply(Function3<P1, P2, P3, R> p1P2P3RFunction3) {
-            return this.child.apply(p1P2P3RFunction3.apply(this.result.result(System.out::println)));
+            return this.child.apply(p1P2P3RFunction3.bind(this.result.result(System.out::println)));
         }
 
         public <P4> Group4<P1, P2, P3, P4, R> bind(String name, Function<R, P4> getter, Codec<P4> codec) {
@@ -122,7 +122,7 @@ public class CodecMapper<R> {
 
         @Override
         public DataResult<R> apply(Function4<P1, P2, P3, P4, R> p1P2P3P4RFunction4) {
-            return this.child.apply(p1P2P3P4RFunction4.apply(this.result.result(System.out::println)));
+            return this.child.apply(p1P2P3P4RFunction4.bind(this.result.result(System.out::println)));
         }
     }
 
