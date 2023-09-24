@@ -2,8 +2,9 @@ package me.wawwior.utils.serialization;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import me.wawwior.utils.serialization.codec.ArrayCodec;
+import me.wawwior.utils.serialization.codec.FieldCodec;
 import me.wawwior.utils.serialization.codec.ListCodec;
 import me.wawwior.utils.serialization.codec.MapCodec;
 
@@ -44,30 +45,20 @@ public interface Codec<T> extends Encoder<T>, Decoder<T> {
         return new ListCodec<>(this);
     }
 
+    default ArrayCodec<T> array(Function<Integer, T[]> arrayConstructor) {
+        return new ArrayCodec<>(this, arrayConstructor);
+    }
+
     default MapCodec<T> map() {
         return new MapCodec<>(this);
     }
 
-    default Codec<T> field(String field) {
-        return new Codec<>() {
-            @Override
-            public DataResult<T> decode(JsonElement element) {
-                return element.isJsonObject() ? decode(element.getAsJsonObject().get(field)) : DataResult.error("Not a JSON object");
-            }
-
-            @Override
-            public JsonElement encode(T object) {
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.add(field, Codec.this.encode(object));
-                return jsonObject;
-            }
-        };
+    default FieldCodec<T> field(String field) {
+        return new FieldCodec<>(field, this);
     }
 
-    /*
     static <T> Codec<T> mapped(Function<CodecMapper<T>, Codec<T>> mapper) {
         return mapper.apply(new CodecMapper<>());
     }
-    */
 
 }
